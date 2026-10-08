@@ -8,6 +8,13 @@
       "when": 1791488497040,
       "tag": "0000_hot_kabuki",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791493674750,
+      "tag": "0001_boring_silver_samurai",
+      "breakpoints": true
     }
   ]
 }
