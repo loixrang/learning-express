@@ -79,4 +79,23 @@ const deleteTask: RequestHandler = async (req, res) => {
     res.status(500).json({message: "Internal server error", error})
   }
 }
-export {addTask, listTasks, specificTask, updateTask, deleteTask}
+
+const queryTask: RequestHandler = async (req, res, next) => {
+  const completed = req.query.completed;
+  if (completed !== undefined &&
+    completed !== "true" &&
+    completed !== "false"
+  ) {
+    res.status(400).json({message: "Completed must be true or false"});
+    return
+  }
+  const completionFIlter = completed === undefined ? undefined : eq(tasks.completed, completed === "true")
+  try {
+    const records = await db.select().from(tasks).where(completionFIlter).orderBy(tasks.id).limit(20)
+    res.json(records)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export {addTask, listTasks, specificTask, updateTask, deleteTask, queryTask}
