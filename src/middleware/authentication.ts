@@ -102,16 +102,16 @@ export const requireAuth: RequestHandler = async (req, res, next) => {
     return;
   }
 
-  let userId: number
+  let userId: number;
 
   try {
-    const token = authorization.slice(7)
-    const {payload} = await jwtVerify(token, secret, {
+    const token = authorization.slice(7);
+    const { payload } = await jwtVerify(token, secret, {
       algorithms: ["HS256"],
-      requiredClaims: ["sub", "exp"]
-    })
+      requiredClaims: ["sub", "exp"],
+    });
 
-    userId = Number(payload.sub)
+    userId = Number(payload.sub);
 
     if (!Number.isSafeInteger(userId) || userId <= 0) {
       throw new Error("Invalid user ID");
@@ -122,5 +122,5 @@ export const requireAuth: RequestHandler = async (req, res, next) => {
   }
 
   res.locals.userId = userId;
-  next()
-}
+  next();
+};
