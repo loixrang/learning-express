@@ -47,4 +47,19 @@ const specificTask: RequestHandler =  async (req, res) => {
   }
 }
 
-export {addTask, listTasks, specificTask}
+const updateTask: RequestHandler = async (req, res) => {
+  try {
+    const id = Number(req.params.id)
+    const {title, completed} = req.body
+    const [updatedTask] = await db.update(tasks).set({title: title, completed: completed}).where(eq(tasks.id, id)).returning()
+
+    if (!updatedTask) {
+      return res.status(404).json({message: "Task not found"})
+    }
+    res.status(200).json({message: "Task updated succesfully", updatedTask})
+  } catch (error) {
+    res.status(500).json({message: "Internal server error", error})
+  }
+}
+
+export {addTask, listTasks, specificTask, updateTask}

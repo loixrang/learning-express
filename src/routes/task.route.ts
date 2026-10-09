@@ -1,8 +1,7 @@
 import { Router } from "express";
-import { addTask, listTasks, specificTask } from "../controllers/task.controller";
+import { addTask, listTasks, specificTask, updateTask } from "../controllers/task.controller";
 
 export const router = Router()
 
-router.route("/").post(addTask)
-router.route("/").get(listTasks)
-router.route("/:id").get(specificTask)
+router.route("/").post(addTask).get(listTasks)
+router.route("/:id").get(specificTask).patch(updateTask)
