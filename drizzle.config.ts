@@ -1,7 +1,7 @@
 import "dotenv/config"
 import {defineConfig} from "drizzle-kit"
 
-const migrationUrl = process.env.DIRECT_URL;
+const migrationUrl = process.env.DATABASE_URL;
 
 if (!migrationUrl) {
   throw new Error("Direct URL is missing")
