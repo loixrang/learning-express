@@ -62,4 +62,21 @@ const updateTask: RequestHandler = async (req, res) => {
   }
 }
 
-export {addTask, listTasks, specificTask, updateTask}
+const deleteTask: RequestHandler = async (req, res) => {
+  const id = Number(req.params.id)
+  if (!Number.isInteger(id) || id < 1 || id > 2_147_483_647) {
+    res.status(400).json({ message: "Invalid task ID." });
+    return;
+  }
+  try {
+    const deleteTask = await db.delete(tasks).where(eq(tasks.id, id)).returning({id: tasks.id})
+    if (!deleteTask) {
+      res.status(404).json({ message: "Task not found." });
+      return;
+    }
+    res.status(201).json({message: "deleted successfully"})
+  } catch (error) {
+    res.status(500).json({message: "Internal server error", error})
+  }
+}
+export {addTask, listTasks, specificTask, updateTask, deleteTask}
